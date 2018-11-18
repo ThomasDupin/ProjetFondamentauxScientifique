@@ -10,12 +10,11 @@
 #include "donnees.h"
 
 int main(){
-	Datas data = NULL;
-	openFile(data);
-	printf("OUI");
-	fflush(stdout);
+	//Datas data = NULL;
+	Datas data = openFile();
 	int userChoice = menu();
 	choice(userChoice, data);
+	free(data);
 	return 0;
 }
 

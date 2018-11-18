@@ -20,15 +20,13 @@ Datas openFile(){
 		printf("Error can't read csv file \n");
 		fflush(stdout);
 	}
-	printf("OUI");
-	fflush(stdout);
 	fclose(file);
 	return data;
 }
 Datas stockFile(FILE* file){
 	int numberLine = 0;
 	numberOfLine(&numberLine);
-	char tab[10];
+	char tab[15];
 	Datas data = malloc(sizeof(Data)*numberLine);
 	if(data == NULL){
 		printf("ERROR !");
@@ -36,26 +34,24 @@ Datas stockFile(FILE* file){
 		exit(0);
 	}
 	for(int i = 0; i < numberLine; i++){
-		fgets(tab, 10, file);
+		fgets(tab, 15, file);
+		fflush(stdout);
 		automate(tab, data, i);
 	}
 	return data;
 }
 void numberOfLine(int *numberLine){
     FILE* file = NULL;
-    int c = 0;
+    int carac = 0;
     int compteur = 0;
     file = fopen("C:\\Users\\1836805\\Desktop\\Projet Coeur\\programmation\\lectureTraitementDonnee\\Battements.csv", "r");
-    if (file !=NULL)
-    {
-        do
-        {
-            c = fgetc(file);
-                if (c=='$')
-                {
+    if (file !=NULL){
+        do{
+            carac = fgetc(file);
+                if (carac == '$'){
                     compteur++;
                 }
-        }while(c != EOF);
+        }while(carac != EOF);
     }
     *numberLine = compteur;
     fclose(file);
@@ -64,8 +60,6 @@ void automate(char tab[10], Datas data, int u){
 	char tabPulse[10];
 	char tabTime[10];
 	int i = 0, j = 0;
-	printf("tab : %s", tab);
-	fflush(stdout);
 	while(tab[i] != ';'){
 		tabPulse[i] = tab[i];
 		i++;

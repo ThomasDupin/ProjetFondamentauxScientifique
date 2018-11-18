@@ -15,7 +15,7 @@ void printInAscendingOrder(Datas data);
 void bubbleSort(Datas copyOfData, int type);
 void printInDecreasingOrder(Datas data);
 int search(Datas data, int time);
-int numberOfLineOfTab(Datas data);
+int searchTime(int time, Datas data);
 void searchRange(int time1, int time2, Datas data);
 void searchMinMax(Datas data);
 void creatNewTab(Datas data, Datas newTab);

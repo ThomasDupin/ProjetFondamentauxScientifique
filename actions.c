@@ -14,6 +14,8 @@
 void choice(int userChoice, Datas data){
 	int time, time1, time2;
 	int pulse;
+	int line = 0;
+	numberOfLine(&line);
 	switch(userChoice){
 		case 1:
 			printAllData(data);
@@ -28,15 +30,14 @@ void choice(int userChoice, Datas data){
 			time = choice4();
 			pulse = search(data, time);
 			printf("Pulse for %d = %d", time, pulse);
+			fflush(stdout);
 			break;
 		case 5:
-			time1 = 0;
-			time2 = 0;
 			choice5(&time1, &time2);
 			searchRange(time1, time2, data);
 			break;
 		case 6:
-			printf("Number of line :%d \n", numberOfLineOfTab(data));
+			printf("Number of line :%d \n", line);
 			break;
 		case 7:
 			searchMinMax(data);
@@ -50,93 +51,117 @@ void choice(int userChoice, Datas data){
 	}
 }
 void printAllData(Datas data){
-	for(int i = 0; i < numberOfLineOfTab(data); i++){
-		printf("%s - %s \n", data[i].pulse, data[i].time);
+	int line = 0;
+	numberOfLine(&line);
+	for(int i = 0; i < line; i++){
+		printf("%d - %d \n", data[i].pulse, data[i].time);
+		fflush(stdout);
 	}
 }
 void printInAscendingOrder(Datas data){
-	int line = numberOfLineOfTab(data);
-	Datas copyOfData = NULL;
+	int line = 0;
+	numberOfLine(&line);
+	Datas copyOfData;
 	creatNewTab(data, copyOfData);
 	int type;
-	printf("1 - Pulse");
-	printf("2 - Time");
+	printf("1 - Pulse  \n");
+	printf("2 - Time \n");
 	printf("What type of value you want to sort: ");
 	fflush(stdout);
 	scanf("%d", &type);
 	bubbleSort(copyOfData, type);
-	for(int i = 0; i < numberOfLineOfTab(copyOfData); i++){
-		printf("%s - %s \n", copyOfData[i].pulse, copyOfData[i].time);
+	for(int i = 0; i < line; i++){
+		printf("%d - %d \n", copyOfData[i].pulse, copyOfData[i].time);
 	}
 
 }
-void bubbleSort(Datas copyOfData, int type){
-	int tmpTime;
-	int tmpPulse;
-	switch(type){
-		case 1:
-			for(int i = 0; i < numberOfLineOfTab(copyOfData); i++){
-				if(copyOfData[i].pulse > copyOfData[i+1].pulse){
-					tmpTime = copyOfData[i].time;
-					tmpPulse = copyOfData[i].pulse;
-					copyOfData[i].pulse = copyOfData[i+1].pulse;
-					copyOfData[i].time = copyOfData[i+1].time;
-					copyOfData[i+1].pulse = tmpPulse;
-					copyOfData[i+1].time = tmpTime;
-				}
-			}
-		break;
-		case 2:
-			for(int i = 0; i < numberOfLineOfTab(&copyOfData); i++){
-				if(copyOfData[i].time  > copyOfData[i+1].pulse){
-					tmpTime = copyOfData[i].time;
-					tmpPulse = copyOfData[i].pulse;
-					copyOfData[i].pulse = copyOfData[i+1].pulse;
-					copyOfData[i].time = copyOfData[i+1].time;
-					copyOfData[i+1].pulse = tmpPulse;
-					copyOfData[i+1].time = tmpTime;
-				}
-			}
-			break;
-		case 3:
-			for(int i = 0; i < numberOfLineOfTab(&copyOfData); i++){
-				if(copyOfData[i].pulse < copyOfData[i+1].pulse){
-					tmpTime = copyOfData[i].time;
-					tmpPulse = copyOfData[i].pulse;
-					copyOfData[i].pulse = copyOfData[i+1].pulse;
-					copyOfData[i].time = copyOfData[i+1].time;
-					copyOfData[i+1].pulse = tmpPulse;
-					copyOfData[i+1].time = tmpTime;
-				}
-			}
-			break;
-		case 4:
-			for(int i = 0; i < numberOfLineOfTab(&copyOfData); i++){
-				if(copyOfData[i].time > copyOfData[i+1].time){
-					tmpTime = copyOfData[i].time;
-					tmpPulse = copyOfData[i].pulse;
-					copyOfData[i].pulse = copyOfData[i+1].pulse;
-					copyOfData[i].time = copyOfData[i+1].time;
-					copyOfData[i+1].pulse = tmpPulse;
-					copyOfData[i+1].time = tmpTime;
-				}
-			}
-			break;
-	}
-}
 void printInDecreasingOrder(Datas data){
-	int line = numberOfLineOfTab(data);
-	Datas copyOfData = NULL;
+	int line = 0;
+	numberOfLine(&line);
+	Datas copyOfData;
 	creatNewTab(data, copyOfData);
 	int type;
-	printf("1 - Pulse");
-	printf("2 - Time");
+	printf("1 - Pulse \n");
+	printf("2 - Time \n");
 	printf("What type of value you want to sort: ");
 	fflush(stdout);
 	scanf("%d", &type);
 	bubbleSort(copyOfData, type+2);
-	for(int i = 0; i < numberOfLineOfTab(copyOfData); i++){
-		printf("%s - %s \n", copyOfData[i].pulse, copyOfData[i].time);
+	for(int i = 0; i < line; i++){
+		printf("%d - %d \n", copyOfData[i].pulse, copyOfData[i].time);
+	}
+}
+void bubbleSort(Datas copyOfData, int type){
+	int tmpTime;
+	int tmpPulse;
+	int line = 0;
+	int sort = 1;
+	numberOfLine(&line);
+	switch(type){
+		case 1:
+			while(sort){
+				sort = 0;
+				for(int i = 0; i < line; i++){
+					if(copyOfData[i].pulse > copyOfData[i+1].pulse){
+						tmpTime = copyOfData[i].time;
+						tmpPulse = copyOfData[i].pulse;
+						copyOfData[i].pulse = copyOfData[i+1].pulse;
+						copyOfData[i].time = copyOfData[i+1].time;
+						copyOfData[i+1].pulse = tmpPulse;
+						copyOfData[i+1].time = tmpTime;
+						sort = 1;
+					}
+				}
+			}
+		break;
+		case 2:
+			while(sort){
+				sort = 0;
+				for(int i = 0; i < line; i++){
+					if(copyOfData[i].time  > copyOfData[i+1].time){
+						tmpTime = copyOfData[i].time;
+						tmpPulse = copyOfData[i].pulse;
+						copyOfData[i].pulse = copyOfData[i+1].pulse;
+						copyOfData[i].time = copyOfData[i+1].time;
+						copyOfData[i+1].pulse = tmpPulse;
+						copyOfData[i+1].time = tmpTime;
+						sort = 1;
+					}
+				}
+			}
+			break;
+		case 3:
+			while(sort){
+				sort = 0;
+				for(int i = 0; i < line; i++){
+					if(copyOfData[i].pulse < copyOfData[i+1].pulse){
+						tmpTime = copyOfData[i].time;
+						tmpPulse = copyOfData[i].pulse;
+						copyOfData[i].pulse = copyOfData[i+1].pulse;
+						copyOfData[i].time = copyOfData[i+1].time;
+						copyOfData[i+1].pulse = tmpPulse;
+						copyOfData[i+1].time = tmpTime;
+						sort = 1;
+					}
+				}
+			}
+			break;
+		case 4:
+			while(sort){
+				sort = 0;
+				for(int i = 0; i < line; i++){
+					if(copyOfData[i].time < copyOfData[i+1].time){
+						tmpTime = copyOfData[i].time;
+						tmpPulse = copyOfData[i].pulse;
+						copyOfData[i].pulse = copyOfData[i+1].pulse;
+						copyOfData[i].time = copyOfData[i+1].time;
+						copyOfData[i+1].pulse = tmpPulse;
+						copyOfData[i+1].time = tmpTime;
+						sort = 1;
+					}
+				}
+			}
+			break;
 	}
 }
 int search(Datas data, int time){
@@ -146,27 +171,24 @@ int search(Datas data, int time){
 	}
 	return data[i].pulse;
 }
-int numberOfLineOfTab(Datas data){
-	int i = 0;
-	while(data[i].time != '\n'){
-		i++;
-	}
-	return i;
-}
 void searchRange(int time1, int time2, Datas data){
 	int averagePulse;
-	for(int i = data[time1].time; i < data[time2].time; i++){
+	int i1 = searchTime(time1, data);
+	int i2 = searchTime(time2, data);
+	for(int i = i1; i < i2; i++){
 		averagePulse = averagePulse + data[i].pulse;
 	}
-	averagePulse = averagePulse/(time2-time1);
+	averagePulse = averagePulse/(i2-i1);
 	printf("Average of pulse of %d to %d is : %d", time1, time2, averagePulse);
 }
 void searchMinMax(Datas data){
 	int min = 0;
 	int max = 0;
 	int tmp;
-	int associateTimeMax, associateTimeMin;
-	for(int i = 0; i < numberOfLineOfTab(data); i++){
+	int associateTimeMax, associateTimeMin = 0;
+	int line = 0;
+	numberOfLine(&line);
+	for(int i = 0; i < line; i++){
 		tmp = data[i].pulse;
 		if(tmp > max){
 			max = tmp;
@@ -177,13 +199,21 @@ void searchMinMax(Datas data){
 			associateTimeMin = data[i].time;
 		}
 	}
-	printf("The lowest pulse is %d - %d \n The highest pulse is %d - %d", min, associateTimeMin, max, associateTimeMax);
+	printf("The lowest pulse is %d - %d \nThe highest pulse is %d - %d", min, associateTimeMin, max, associateTimeMax);
 }
-void creatNewTab(Datas data, Datas newTab){
-	int length = numberOfLineOfTab(data);
+void creatNewTab(Datas data, Datas copyOfData){
+	int line = 0;
+	numberOfLine(&line);
 	int i;
-	for (i = 0; i < length; ++i){
-		newTab[i].time = data[i].time;
-		newTab[i].pulse = data[i].pulse;
+	for (i = 0; i < line; i++){
+		copyOfData[i].time = data[i].time;
+		copyOfData[i].pulse = data[i].pulse;
 	}
+}
+int searchTime(int time, Datas data){
+	int i = 0;
+	while(data[i].time != time){
+		i++;
+	}
+	return i;
 }
